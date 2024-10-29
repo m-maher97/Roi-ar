@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>حاسبة عائد الاستثمار في التسويق</title>
+  <link rel="stylesheet" href="roi.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <img src="https://d2pi0n2fm836iz.cloudfront.net/595260/10212024112225671639717f5b5.svg" alt="">
+    <h1>حاسبة عائد الاستثمار في التسويق</h1>
+
+    <!-- حقول النموذج -->
+    <div class="form-group">
+      <!-- زوار الموقع -->
+      <div class="input-field">
+        <label for="visitors">زوار الموقع (شهرياً):</label>
+        <input type="number" id="visitors" placeholder="أدخل عدد الزوار" />
+      </div>
+
+      <!-- الصفقات المُنشأة -->
+      <div class="input-field">
+        <label for="deals">الصفقات المُنشأة (شهرياً):</label>
+        <input type="number" id="deals" placeholder="أدخل عدد الصفقات المُنشأة" />
+      </div>
+
+      <!-- العملاء المتوقعون من التسويق -->
+      <div class="input-field">
+        <label for="leads">العملاء المتوقعون من التسويق (شهرياً):</label>
+        <input type="number" id="leads" placeholder="أدخل عدد العملاء المتوقعين" />
+      </div>
+
+      <!-- معدل تحويل العملاء المتوقعين إلى صفقات -->
+      <div class="input-field">
+        <label for="conversionRate">معدل تحويل العملاء المتوقعين إلى صفقات (%):</label>
+        <input type="number" id="conversionRate" placeholder="أدخل معدل التحويل" />
+      </div>
+
+      <!-- متوسط حجم الصفقة -->
+      <div class="input-field">
+        <label for="dealSize">متوسط حجم الصفقة:</label>
+        <input type="number" id="dealSize" placeholder="أدخل متوسط حجم الصفقة" />
+      </div>
+    </div>
+
+    <!-- مجموعة الأزرار (احسب وأعد التعيين) -->
+    <div class="button-group">
+      <button onclick="calculateMarketingROI()">احسب العائد</button>
+      <button class="reset" onclick="resetCalculator()">إعادة التعيين</button>
+    </div>
+
+    <!-- عرض النتيجة -->
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    function calculateMarketingROI() {
+      // جلب مدخلات المستخدم
+      const visitors = parseFloat(document.getElementById('visitors').value);
+      const deals = parseFloat(document.getElementById('deals').value);
+      const leads = parseFloat(document.getElementById('leads').value);
+      const conversionRate = parseFloat(document.getElementById('conversionRate').value);
+      const dealSize = parseFloat(document.getElementById('dealSize').value);
+      
+      // التحقق من المدخلات
+      if (isNaN(visitors) || isNaN(deals) || isNaN(leads) || isNaN(conversionRate) || isNaN(dealSize)) {
+        alert('يرجى إدخال أرقام صحيحة لجميع الحقول.');
+        return;
+      }
+
+      // حساب عائد الاستثمار في التسويق
+      const convertedLeads = leads * (conversionRate / 100);  // العملاء المتوقعون الذين تم تحويلهم إلى صفقات
+      const expectedRevenue = convertedLeads * dealSize;  // إجمالي الإيرادات
+      const profit = expectedRevenue - (leads + visitors);  // مثال على الربح (يمكنك إضافة المزيد من التكاليف)
+      const roi = (profit / (leads + visitors)) * 100;
+
+      // عرض النتيجة
+      document.getElementById('result').innerHTML = `
+        <p><strong>الإيرادات المتوقعة:</strong> $${expectedRevenue.toFixed(2)}</p>
+        <p><strong>الربح:</strong> $${profit.toFixed(2)}</p>
+        <p><strong>عائد الاستثمار:</strong> ${roi.toFixed(2)}%</p>
+      `;
+    }
+
+    function resetCalculator() {
+      // مسح جميع حقول الإدخال
+      document.getElementById('visitors').value = '';
+      document.getElementById('deals').value = '';
+      document.getElementById('leads').value = '';
+      document.getElementById('conversionRate').value = '';
+      document.getElementById('dealSize').value = '';
+
+      // مسح قسم النتيجة
+      document.getElementById('result').innerHTML = '';
+    }
+  </script>
+</body>
+</html>
